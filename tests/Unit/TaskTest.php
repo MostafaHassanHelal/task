@@ -15,8 +15,14 @@ class TaskTest extends TestCase
     {
         $response = $this->get('/');
 
+        // Check if the response is not a redirect
+        $response->assertOk();
+    
+        // Check if the response is a view
         $response->assertViewIs('task.index');
-        $response->assertStatus(200);
+    
+        // Check if the response has a status code of 200
+        $response->assertStatus(200);;
     }
 
     public function testCreate()
