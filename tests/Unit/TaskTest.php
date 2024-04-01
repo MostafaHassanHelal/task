@@ -34,29 +34,19 @@ class TaskTest extends TestCase
     {
         Queue::fake();
 
-        $user = new User();
-        $user->name = 'Test User';
-        $user->role = User::ROLE_USER;
-        $user->save();
-
-        $admin = new User();
-        $admin->name = 'Test Admin';
-        $admin->role = User::ROLE_ADMIN;
-        $admin->save();
-
         $task = new Task();
         $task->title = 'Test Task';
         $task->description = 'Test Description';
-        $task->assigned_to_id = $user->id;
-        $task->created_by_id = $admin->id;
+        $task->assigned_to_id = 1;
+        $task->created_by_id = 1114;
         $task->save();
 
         $response = $this->post('/task/store', $task->toArray());
 
         $response->assertRedirect('/');
 
-        Queue::assertPushed(UpdateStatisticsJob::class, function ($job) use ($user) {
-            return $job->assigned_to_id === $user->id;
+        Queue::assertPushed(UpdateStatisticsJob::class, function ($job)  {
+            return $job->assigned_to_id === 1;
         });
     }
 
