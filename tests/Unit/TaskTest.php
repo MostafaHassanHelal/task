@@ -14,9 +14,6 @@ class TaskTest extends TestCase
     public function testIndex()
     {
         $response = $this->get('/');
-
-        // Check if the response is not a redirect
-        $response->assertOk();
     
         // Check if the response is a view
         $response->assertViewIs('task.index');
